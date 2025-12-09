@@ -19,12 +19,24 @@ function Router() {
 }
 
 function WhatsAppButton() {
-  const handleWhatsAppClick = () => {
-    const phoneNumber = "5511934855187";
-    const message = "Olá! Gostaria de saber mais sobre os serviços de atraso na entrega de imóveis.";
-    const encodedMessage = encodeURIComponent(message);
-    window.open(`https://wa.me/${phoneNumber}?text=${encodedMessage}`, "_blank");
-  };
+ const handleWhatsAppClick = () => {
+  const phoneNumber = "5511934855187";
+  const message = "Olá! Gostaria de saber mais sobre os serviços de atraso na entrega de imóveis.";
+  const encodedMessage = encodeURIComponent(message);
+
+  // Disparar conversão no Google Ads (com verificação de segurança)
+  if (typeof gtag === "function") {
+    gtag('event', 'conversion', {
+      'send_to': 'AW-17789936486/yrl-COKWt842bEDuGB6Jc',
+      'value': 1.0,
+      'currency': 'BRL'
+    });
+  }
+
+  // Abrir a conversa no WhatsApp
+  window.open(`https://wa.me/${phoneNumber}?text=${encodedMessage}`, "_blank");
+};
+
 
   return (
     <button
