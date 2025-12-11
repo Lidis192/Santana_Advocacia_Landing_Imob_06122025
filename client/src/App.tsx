@@ -27,7 +27,7 @@ function WhatsAppButton() {
   // Disparar conversão no Google Ads (com verificação de segurança)
   if (typeof gtag === "function") {
     gtag('event', 'conversion', {
-      'send_to': 'AW-17789936486/yrl-COKWt842bEDuGB6Jc',
+      'send_to': 'AW-17789936486/yrl-COKWr84bE0bG86JC',
       'value': 1.0,
       'currency': 'BRL'
     });
