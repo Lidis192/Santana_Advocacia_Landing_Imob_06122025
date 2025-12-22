@@ -19,24 +19,35 @@ function Router() {
 }
 
 function WhatsAppButton() {
- const handleWhatsAppClick = () => {
-  const phoneNumber = "5511934855187";
-  const message = "Olá! Gostaria de saber mais sobre os serviços de atraso na entrega de imóveis.";
-  const encodedMessage = encodeURIComponent(message);
+  const handleWhatsAppClick = () => {
+    const phoneNumber = "5511934855187";
+    const message =
+      "Olá! Gostaria de saber mais sobre os serviços de atraso na entrega de imóveis.";
+    const encodedMessage = encodeURIComponent(message);
 
-  // Disparar conversão no Google Ads (com verificação de segurança)
-  if (typeof gtag === "function") {
-    gtag('event', 'conversion', {
-      'send_to': 'AW-17789936486/yrl-COKWr84bE0bG86JC',
-      'value': 1.0,
-      'currency': 'BRL'
-    });
-  }
+    // 1️⃣ Disparar conversão no Google Ads
+    if (typeof gtag === "function") {
+      gtag("event", "conversion", {
+        send_to: "AW-17789936486/yrl-C0KWR84bE0b8G6JC",
+        value: 1.0,
+        currency: "BRL",
+      });
+    }
 
-  // Abrir a conversa no WhatsApp
-  window.open(`https://wa.me/${phoneNumber}?text=${encodedMessage}`, "_blank");
-};
+    // 2️⃣ Disparar evento no Google Analytics (GA4)
+    if (typeof gtag === "function") {
+      gtag("event", "whatsapp_click", {
+        event_category: "engagement",
+        event_label: "botao_whatsapp_landing",
+      });
+    }
 
+    // 3️⃣ Abrir conversa no WhatsApp
+    window.open(
+      `https://wa.me/${phoneNumber}?text=${encodedMessage}`,
+      "_blank"
+    );
+  };
 
   return (
     <button
@@ -44,10 +55,15 @@ function WhatsAppButton() {
       className="fixed bottom-6 right-6 rounded-full shadow-lg transition-all duration-300 hover:scale-110 z-50 p-0 border-none bg-transparent"
       aria-label="Enviar mensagem no WhatsApp"
     >
-      <img src="/whatsapp-icon.png" alt="WhatsApp" className="w-16 h-16 hover:opacity-80 transition-opacity" />
+      <img
+        src="/whatsapp-icon.png"
+        alt="WhatsApp"
+        className="w-16 h-16 hover:opacity-80 transition-opacity"
+      />
     </button>
   );
 }
+
 
 // NOTE: About Theme
 // - First choose a default theme according to your design style (dark or light bg), than change color palette in index.css
