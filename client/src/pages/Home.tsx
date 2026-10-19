@@ -215,7 +215,7 @@ export default function Home() {
         </div>
         <div className="container mx-auto relative z-10 w-full">
           <div className="max-w-3xl text-center md:text-left mx-auto md:mx-0">
-            <p className="text-[#c9e6da] uppercase tracking-[0.12em] sm:tracking-[0.2em] text-[11px] sm:text-sm font-semibold mb-5 md:mb-6">Direito Imobiliário · Imóveis na planta</p>
+            <p className="text-[#c9e6da] uppercase tracking-[0.12em] sm:tracking-[0.2em] text-[11px] sm:text-sm font-semibold mb-5 md:mb-6 md:pl-[6px] lg:pl-[7px]">Direito Imobiliário · Imóveis na planta</p>
             <h2 className="font-serif text-[2.1rem] leading-[1.15] sm:text-5xl md:text-6xl lg:text-[4.25rem] font-semibold text-white">
               Atrasos na entrega de imóveis comprados na planta são comuns.
               <span className="block mt-3 md:mt-4 text-[#c9e6da]">Mas você não precisa aceitar o prejuízo.</span>
