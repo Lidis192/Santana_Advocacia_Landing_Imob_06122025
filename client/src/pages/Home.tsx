@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { CheckCircle2, Mail, MapPin, Phone, ChevronDown, Menu, X, MessageCircle } from "lucide-react";
+import { CheckCircle2, Mail, MapPin, ChevronDown, Menu, X, MessageCircle } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
 import { MapView } from "@/components/Map";
 import { WHATSAPP_URL, trackWhatsAppClick } from "@/lib/whatsapp";
@@ -445,12 +445,6 @@ export default function Home() {
               <MessageCircle className="w-12 h-12 mx-auto mb-4 text-[#4a9b7f]" />
               <h3 className="font-bold text-xl mb-2">WhatsApp</h3>
               <a {...waLink('Número no rodapé')} className="text-lg text-gray-100 hover:text-[#7fc4a9] transition">(11) 9 3485-5187</a>
-              <div className="mt-3">
-                <a href="tel:+5511934855187" className="inline-flex items-center gap-2 text-sm font-semibold text-[#7fc4a9] hover:text-white border border-[#7fc4a9]/60 rounded-md px-4 py-2 transition">
-                  <Phone className="w-4 h-4" aria-hidden="true" />
-                  Ligar agora
-                </a>
-              </div>
             </div>
             <div className="text-center">
               <Mail className="w-12 h-12 mx-auto mb-4 text-[#4a9b7f]" />
