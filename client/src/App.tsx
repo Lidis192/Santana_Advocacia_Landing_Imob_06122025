@@ -1,13 +1,11 @@
-import { Toaster } from "@/components/ui/sonner";
-import { TooltipProvider } from "@/components/ui/tooltip";
 import NotFound from "@/pages/NotFound";
-import { Route, Switch } from "wouter";
+import { Route, Router as WouterRouter, Switch } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import Home from "./pages/Home";
+import { WHATSAPP_URL, trackWhatsAppClick } from "./lib/whatsapp";
 
-
-function Router() {
+function Routes() {
   return (
     <Switch>
       <Route path="/" component={Home} />
@@ -18,70 +16,37 @@ function Router() {
   );
 }
 
+// Botão flutuante do WhatsApp (registra conversão no Google Ads ao ser clicado)
 function WhatsAppButton() {
-  const handleWhatsAppClick = () => {
-    const phoneNumber = "5511934855187";
-    const message =
-      "Olá! Gostaria de saber mais sobre os serviços de atraso na entrega de imóveis.";
-    const encodedMessage = encodeURIComponent(message);
-
-    // 1️⃣ Disparar conversão no Google Ads
-    if (typeof gtag === "function") {
-      gtag("event", "conversion", {
-        send_to: "AW-17789936486/yrl-C0KWR84bE0b8G6JC",
-        value: 1.0,
-        currency: "BRL",
-      });
-    }
-
-    // 2️⃣ Disparar evento no Google Analytics (GA4)
-    if (typeof gtag === "function") {
-      gtag("event", "whatsapp_click", {
-        event_category: "engagement",
-        event_label: "botao_whatsapp_landing",
-      });
-    }
-
-    // 3️⃣ Abrir conversa no WhatsApp
-    window.open(
-      `https://wa.me/${phoneNumber}?text=${encodedMessage}`,
-      "_blank"
-    );
-  };
-
   return (
-    <button
-      onClick={handleWhatsAppClick}
-      className="fixed bottom-6 right-6 rounded-full shadow-lg transition-all duration-300 hover:scale-110 z-50 p-0 border-none bg-transparent"
+    <a
+      href={WHATSAPP_URL}
+      target="_blank"
+      rel="noopener noreferrer"
+      onClick={() => trackWhatsAppClick("botao_whatsapp_landing")}
+      className="fixed bottom-5 right-5 md:bottom-6 md:right-6 rounded-full shadow-lg transition-all duration-300 hover:scale-110 z-50"
       aria-label="Enviar mensagem no WhatsApp"
     >
       <img
-        src="/whatsapp-icon.png"
-        alt="WhatsApp"
-        className="w-16 h-16 hover:opacity-80 transition-opacity"
+        src="/whatsapp-icon.webp"
+        alt=""
+        width={64}
+        height={64}
+        className="w-14 h-14 md:w-16 md:h-16 hover:opacity-80 transition-opacity"
       />
-    </button>
+    </a>
   );
 }
 
-
-// NOTE: About Theme
-// - First choose a default theme according to your design style (dark or light bg), than change color palette in index.css
-//   to keep consistent foreground/background color across components
-// - If you want to make theme switchable, pass `switchable` ThemeProvider and use `useTheme` hook
-
-function App() {
+// ssrPath é usado apenas na geração da página pronta (pré-renderização), durante o build.
+function App({ ssrPath }: { ssrPath?: string }) {
   return (
     <ErrorBoundary>
-      <ThemeProvider
-        defaultTheme="light"
-        // switchable
-      >
-        <TooltipProvider>
-          <Toaster />
-          <Router />
-          <WhatsAppButton />
-        </TooltipProvider>
+      <ThemeProvider defaultTheme="light">
+        <WouterRouter ssrPath={ssrPath}>
+          <Routes />
+        </WouterRouter>
+        <WhatsAppButton />
       </ThemeProvider>
     </ErrorBoundary>
   );

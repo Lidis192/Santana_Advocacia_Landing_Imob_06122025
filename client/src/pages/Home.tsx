@@ -1,19 +1,17 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { CheckCircle2, Mail, MapPin, ChevronDown, Menu, X, MessageCircle } from "lucide-react";
+import { CheckCircle2, Mail, MapPin, Phone, ChevronDown, Menu, X, MessageCircle } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
 import { MapView } from "@/components/Map";
+import { WHATSAPP_URL, trackWhatsAppClick } from "@/lib/whatsapp";
 
-// Função para rastrear eventos no Google Analytics
-const trackEvent = (eventName: string, eventCategory: string, eventLabel: string) => {
-  const gtagFunc = (window as any).gtag;
-  if (typeof gtagFunc !== 'undefined') {
-    gtagFunc('event', eventName, {
-      'event_category': eventCategory,
-      'event_label': eventLabel,
-    });
-  }
-};
+// Propriedades de um link de WhatsApp que registra conversão no Google Ads ao ser clicado
+const waLink = (origem: string) => ({
+  href: WHATSAPP_URL,
+  target: "_blank",
+  rel: "noopener noreferrer",
+  onClick: () => trackWhatsAppClick(origem),
+});
 
 const useIntersectionObserver = (ref: React.RefObject<HTMLElement | null>, animationClass: string) => {
   const [isVisible, setIsVisible] = useState(false);
@@ -58,19 +56,20 @@ const SectionTitle = ({ children, light = false, subtitle }: { children: React.R
 
 export default function Home() {
   const [expandedFaq, setExpandedFaq] = useState<number | null>(null);
-  const [showCookieBanner, setShowCookieBanner] = useState(true);
+  // Aviso de cookies: aparece só se o visitante ainda não clicou em "Aceitar" (a escolha fica guardada no navegador)
+  const [showCookieBanner, setShowCookieBanner] = useState(false);
+  useEffect(() => {
+    try {
+      if (localStorage.getItem("aviso-cookies-aceito") !== "1") setShowCookieBanner(true);
+    } catch {
+      setShowCookieBanner(true);
+    }
+  }, []);
+  const acceptCookies = () => {
+    try { localStorage.setItem("aviso-cookies-aceito", "1"); } catch { /* navegação privada */ }
+    setShowCookieBanner(false);
+  };
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-
-  const handleWhatsAppClick = (buttonName: string = "WhatsApp") => {
-    trackEvent('cta_click', 'engagement', buttonName);
-    const phoneNumber = "5511934855187";
-    const message = "Olá! Gostaria de saber mais sobre os serviços de atraso na entrega de imóvel.";
-    window.open(`https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`, "_blank");
-  };
-
-  const createWhatsAppHandler = (buttonName: string) => {
-    return () => handleWhatsAppClick(buttonName);
-  };
 
   const faqs = [
     {
@@ -150,25 +149,25 @@ export default function Home() {
         <div className="container mx-auto px-4 flex justify-between items-center h-20 md:h-24">
           {/* Logo and Branding */}
           <a href="#topo" className="flex items-center gap-3 md:gap-4 flex-shrink-0">
-            <img src="/logo.png" alt="Santana Advocacia Logo" className="h-12 w-12 md:h-16 md:w-16 object-contain" />
+            <img src="/logo-128.webp" alt="Santana Advocacia" width={64} height={64} className="h-12 w-12 md:h-16 md:w-16 object-contain" />
             <div className="border-l-2 border-[#293d47]/20 pl-3 md:pl-4">
-              <div className="font-bold text-[#293d47] text-sm sm:text-base md:text-xl tracking-wider uppercase leading-tight">Santana Advocacia</div>
-              <div className="text-[#7A5E47] text-[11px] md:text-sm tracking-widest uppercase font-semibold">Soluções Jurídicas</div>
+              <div className="font-bold text-[#1f2f37] text-sm sm:text-base md:text-xl tracking-wider uppercase leading-tight">Santana Advocacia</div>
+              <div className="text-[#3f2e20] text-[11px] md:text-sm tracking-widest uppercase font-semibold">Soluções Jurídicas</div>
             </div>
           </a>
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex gap-6 lg:gap-9 items-center ml-auto">
             {navLinks.map((link) => (
-              <a key={link.href} href={link.href} className="text-[#293d47] hover:text-[#4a9b7f] transition font-semibold tracking-wider uppercase text-[15px] duration-200">{link.label}</a>
+              <a key={link.href} href={link.href} className="text-[#1f2f37] hover:text-[#1d5c46] transition font-semibold tracking-wider uppercase text-[15px] duration-200">{link.label}</a>
             ))}
-            <button
-              onClick={createWhatsAppHandler('Fale conosco - Header')}
+            <a
+              {...waLink('Fale conosco - Cabeçalho')}
               className="hidden lg:inline-flex items-center gap-2 bg-[#293d47] hover:bg-[#1e2e36] text-white font-semibold text-[15px] tracking-wide px-5 py-2.5 rounded-md transition"
             >
-              <MessageCircle className="w-4 h-4" />
+              <MessageCircle className="w-4 h-4" aria-hidden="true" />
               Fale conosco
-            </button>
+            </a>
           </nav>
 
           {/* Mobile Menu Button */}
@@ -206,7 +205,7 @@ export default function Home() {
             loop
             playsInline
             preload="metadata"
-            poster="/construction-hero-poster.jpg"
+            poster="/construction-hero-poster.webp"
             className="w-full h-full object-cover"
           >
             <source src="/construction-hero.mp4" type="video/mp4" />
@@ -222,12 +221,14 @@ export default function Home() {
               <span className="block mt-3 md:mt-4 text-[#c9e6da]">Mas você não precisa aceitar o prejuízo.</span>
             </h2>
             <Button
+              asChild
               size="lg"
-              className="mt-9 md:mt-12 h-14 px-8 text-lg font-bold bg-[#4a9b7f] hover:bg-[#3d8b6f] text-white rounded-md shadow-lg"
-              onClick={createWhatsAppHandler('Fale com especialista - Abertura')}
+              className="mt-9 md:mt-12 h-14 px-8 text-lg font-bold bg-[#2f7a60] hover:bg-[#256550] text-white rounded-md shadow-lg"
             >
-              <MessageCircle className="w-5 h-5" />
-              Fale com especialista
+              <a {...waLink('Fale com especialista - Abertura')}>
+                <MessageCircle className="w-5 h-5" aria-hidden="true" />
+                Fale com especialista
+              </a>
             </Button>
           </div>
         </div>
@@ -239,11 +240,11 @@ export default function Home() {
           <h1 className="font-serif text-3xl sm:text-4xl md:text-5xl font-semibold mb-5 md:mb-7 leading-tight max-w-3xl mx-auto">Atraso na entrega do imóvel?<br />Conheça seus direitos.</h1>
           <p className="text-lg md:text-xl text-gray-200 leading-relaxed max-w-2xl mx-auto">Nosso escritório é especializado em Direito Civil e Direito Imobiliário, oferecendo soluções jurídicas estratégicas para compradores de imóveis na planta.</p>
           <Button
+            asChild
             size="lg"
             className="bg-white text-[#293d47] hover:bg-gray-100 font-bold text-lg h-14 px-8 rounded-md border-2 border-white mt-8 md:mt-10"
-            onClick={createWhatsAppHandler('Fale com especialista - Hero')}
           >
-            Fale com especialista
+            <a {...waLink('Fale com especialista - Direitos')}>Fale com especialista</a>
           </Button>
         </div>
       </section>
@@ -356,11 +357,11 @@ export default function Home() {
           <div className="text-center mt-14">
             <p className="text-gray-600 text-lg mb-5">Ainda tem dúvidas? Entre em contato conosco!</p>
             <Button
+              asChild
               size="lg"
               className="bg-white text-[#293d47] hover:bg-[#293d47] hover:text-white font-bold text-lg h-14 px-8 rounded-md border-2 border-[#293d47] transition"
-              onClick={createWhatsAppHandler('Fale com um Especialista - FAQ')}
             >
-              Fale com um especialista
+              <a {...waLink('Fale com um especialista - Dúvidas')}>Fale com um especialista</a>
             </Button>
           </div>
         </div>
@@ -376,9 +377,14 @@ export default function Home() {
             <div className="flex justify-center">
               <div className="relative w-full max-w-sm md:max-w-none">
                 <img
-                  src="/dra-leidiane.png"
+                  src="/dra-leidiane.webp"
+                  srcSet="/dra-leidiane-480.webp 480w, /dra-leidiane.webp 832w"
+                  sizes="(min-width: 768px) 420px, 90vw"
+                  width={832}
+                  height={1040}
                   alt="Dra. Leidiane Santana"
                   loading="lazy"
+                  decoding="async"
                   className="w-full h-auto aspect-[4/5] object-cover rounded-xl shadow-xl"
                 />
                 <div className="absolute inset-0 rounded-xl bg-gradient-to-t from-[#293d47]/20 to-transparent"></div>
@@ -414,11 +420,11 @@ export default function Home() {
               </div>
 
               <Button
+                asChild
                 size="lg"
                 className="bg-[#293d47] text-white hover:bg-[#1e2e36] font-bold text-lg h-14 px-8 rounded-md w-full sm:w-auto"
-                onClick={createWhatsAppHandler('Agende uma Consulta - Advogada')}
               >
-                Agende uma consulta
+                <a {...waLink('Agende uma consulta - Advogada')}>Agende uma consulta</a>
               </Button>
             </div>
           </div>
@@ -438,7 +444,13 @@ export default function Home() {
             <div className="text-center">
               <MessageCircle className="w-12 h-12 mx-auto mb-4 text-[#4a9b7f]" />
               <h3 className="font-bold text-xl mb-2">WhatsApp</h3>
-              <a href="https://wa.me/5511934855187" target="_blank" rel="noopener noreferrer" className="text-lg text-gray-100 hover:text-[#7fc4a9] transition">(11) 9 3485-5187</a>
+              <a {...waLink('Número no rodapé')} className="text-lg text-gray-100 hover:text-[#7fc4a9] transition">(11) 9 3485-5187</a>
+              <div className="mt-3">
+                <a href="tel:+5511934855187" className="inline-flex items-center gap-2 text-sm font-semibold text-[#7fc4a9] hover:text-white border border-[#7fc4a9]/60 rounded-md px-4 py-2 transition">
+                  <Phone className="w-4 h-4" aria-hidden="true" />
+                  Ligar agora
+                </a>
+              </div>
             </div>
             <div className="text-center">
               <Mail className="w-12 h-12 mx-auto mb-4 text-[#4a9b7f]" />
@@ -452,7 +464,7 @@ export default function Home() {
             </div>
           </div>
           <div className="text-center border-t border-gray-600 pt-8">
-            <p className="text-gray-300 text-sm md:text-base">© {new Date().getFullYear()} Santana Advocacia Soluções Jurídicas. Todos os direitos reservados.</p>
+            <p className="text-gray-300 text-sm md:text-base" suppressHydrationWarning>© {new Date().getFullYear()} Santana Advocacia Soluções Jurídicas. Todos os direitos reservados.</p>
           </div>
         </div>
       </footer>
@@ -465,8 +477,8 @@ export default function Home() {
               Este site não se utiliza de "cookies" para coletar informações pessoais ou de navegação. Nossos provedores poderão, contudo, utilizar cookies para coletar dados genéricos e com finalidades estatísticas. Clicando em "Aceitar", você concorda com os termos.
             </p>
             <button
-              onClick={() => setShowCookieBanner(false)}
-              className="bg-[#4a9b7f] hover:bg-[#3d8b6f] text-white font-bold py-2 px-4 sm:px-6 rounded transition whitespace-nowrap flex-shrink-0 text-xs sm:text-sm"
+              onClick={acceptCookies}
+              className="bg-[#2f7a60] hover:bg-[#256550] text-white font-bold py-2 px-4 sm:px-6 rounded transition whitespace-nowrap flex-shrink-0 text-xs sm:text-sm"
             >
               ACEITAR
             </button>

@@ -2,55 +2,47 @@
 <html lang="pt-BR">
 
   <head>
-      <!-- Google Analytics -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-VMERB21QCP"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-VMERB21QCP');
-  </script>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-    <meta name="google-site-verification" content="6KChUQnQx_Vc51kxCc7U1vI6dm2IjVipLM7ERRxKU_E" />
-    <link rel="icon" type="image/png" href="%VITE_APP_LOGO%" />
-    <link rel="apple-touch-icon" href="%VITE_APP_LOGO%" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Santana Advocacia - Soluções para compradores de imóveis na planta</title>
-    <!-- Open Graph Meta Tags for Social Sharing -->
-    <meta property="og:title" content="Santana Advocacia Solu&#231;&#245;es Jur&#237;dicas" />
-    <meta property="og:description" content="Atraso na entrega do Im&#243;vel? Conhe&#231;a seus direitos." />
+    <meta name="description" content="Atraso na entrega do imóvel? Conheça seus direitos. Soluções jurídicas especializadas para compradores de imóveis na planta." />
+    <meta name="theme-color" content="#293d47" />
+    <meta name="google-site-verification" content="6KChUQnQx_Vc51kxCc7U1vI6dm2IjVipLM7ERRxKU_E" />
+
+    <!-- Google tag (gtag.js): um único carregamento para Google Analytics e Google Ads -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-VMERB21QCP"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-VMERB21QCP');
+      gtag('config', 'AW-17789936486');
+    </script>
+
+    <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48.png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="preload" as="image" href="/construction-hero-poster.webp" fetchpriority="high" />
+
+    <!-- Open Graph (prévia ao compartilhar o link) -->
+    <meta property="og:title" content="Santana Advocacia Soluções Jurídicas" />
+    <meta property="og:description" content="Atraso na entrega do imóvel? Conheça seus direitos." />
     <meta property="og:image" content="/og-image.png" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
+    <!-- PENDENTE: confirmar o domínio correto (santanaasadvocacia x santanasadvocacia) e usar endereço completo também no og:image -->
     <meta property="og:url" content="https://santanaasadvocacia.com.br/atraso-imobiliario" />
     <meta property="og:type" content="website" />
-    <meta name="description" content="Atraso na entrega do im&#243;vel? Conhe&#231;a seus direitos. Solu&#231;&#245;es jur&#237;dicas especializadas para compradores de im&#243;veis na planta." />
+    <meta property="og:locale" content="pt_BR" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Santana Advocacia Solu&#231;&#245;es Jur&#237;dicas" />
-    <meta name="twitter:description" content="Atraso na entrega do Im&#243;vel? Conhe&#231;a seus direitos." />
+    <meta name="twitter:title" content="Santana Advocacia Soluções Jurídicas" />
+    <meta name="twitter:description" content="Atraso na entrega do imóvel? Conheça seus direitos." />
     <meta name="twitter:image" content="/og-image.png" />
     <!-- Fontes (Inter e Source Serif 4) são carregadas pelo próprio site, em client/src/main.tsx -->
-    <link rel="preload" as="image" href="/construction-hero-poster.jpg" />
-      <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=AW-17789936486"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'AW-17789936486');
-  </script>
-
   </head>
 
   <body>
-    <div id="root"></div>
+    <div id="root"><!--app-html--></div>
     <script type="module" src="/src/main.tsx"></script>
-    <script
-      defer
-      src="%VITE_ANALYTICS_ENDPOINT%/umami"
-      data-website-id="%VITE_ANALYTICS_WEBSITE_ID%"></script>
-
   </body>
 
 </html>
