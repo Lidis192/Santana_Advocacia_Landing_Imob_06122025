@@ -7,7 +7,7 @@ export const WHATSAPP_MESSAGE =
   "Olá! Gostaria de saber mais sobre os serviços de atraso na entrega de imóvel.";
 export const WHATSAPP_URL = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(WHATSAPP_MESSAGE)}`;
 
-const ADS_CONVERSION_ID = "AW-17789936486/yrl-C0KWR84bE0b8G6JC";
+const ADS_CONVERSION_ID = "AW-11442555186/C431CI6D8oIZELKSntAq";
 
 type Gtag = (...args: unknown[]) => void;
 
