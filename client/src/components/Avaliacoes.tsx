@@ -84,12 +84,9 @@ export default function Avaliacoes() {
   return (
     <div className="max-w-6xl mx-auto">
       {/* Resumo da nota */}
-      <div className="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-4 mb-10 text-center">
-        <div className="flex items-center gap-3">
-          <span className="font-serif text-4xl font-semibold text-[#293d47]">5,0</span>
-          <Estrelas tamanho="w-5 h-5" />
-        </div>
-        <span className="text-gray-600 text-base md:text-lg">27 avaliações no Google</span>
+      <div className="flex items-center justify-center gap-3 mb-10">
+        <span className="font-serif text-4xl font-semibold text-[#293d47]">5,0</span>
+        <Estrelas tamanho="w-5 h-5" />
       </div>
 
       {/* Cartões: rolagem lateral no celular, grade no computador */}
