@@ -3,6 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { CheckCircle2, Mail, MapPin, ChevronDown, Menu, X, MessageCircle } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
 import { MapView } from "@/components/Map";
+import Avaliacoes from "@/components/Avaliacoes";
 import { WHATSAPP_URL, trackWhatsAppClick } from "@/lib/whatsapp";
 
 // Propriedades de um link de WhatsApp que registra conversão no Google Ads ao ser clicado
@@ -115,6 +116,7 @@ export default function Home() {
   // Refs para animações
   const servicosRef = useRef<HTMLElement | null>(null);
   const porQueEscolherRef = useRef<HTMLElement | null>(null);
+  const avaliacoesRef = useRef<HTMLElement | null>(null);
   const faqRef = useRef<HTMLElement | null>(null);
   const advogadaRef = useRef<HTMLElement | null>(null);
   const mapaRef = useRef<HTMLElement | null>(null);
@@ -123,6 +125,7 @@ export default function Home() {
   // Hooks de animação
   const servicosAnimation = useIntersectionObserver(servicosRef, "animate-slideInUp");
   const porQueEscolherAnimation = useIntersectionObserver(porQueEscolherRef, "animate-slideInUp");
+  const avaliacoesAnimation = useIntersectionObserver(avaliacoesRef, "animate-fadeIn");
   const faqAnimation = useIntersectionObserver(faqRef, "animate-fadeIn");
   const advogadaAnimation = useIntersectionObserver(advogadaRef, "animate-slideInUp");
   const mapaAnimation = useIntersectionObserver(mapaRef, "animate-fadeIn");
@@ -312,6 +315,14 @@ export default function Home() {
               </div>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* Avaliações de clientes (Google) */}
+      <section id="avaliacoes" ref={avaliacoesRef} className={`scroll-mt-24 py-16 md:py-24 px-4 bg-[#eef4f1] transition-all duration-700 ${avaliacoesAnimation}`}>
+        <div className="container mx-auto">
+          <SectionTitle>O que dizem nossos clientes</SectionTitle>
+          <Avaliacoes />
         </div>
       </section>
 
